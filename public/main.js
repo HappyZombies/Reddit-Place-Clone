@@ -61,8 +61,8 @@ $(function(){
     //But we only want to follow/write to the variable if we are display: block for the selected color.
    $(document).mousemove(function(e){
        if(selectedColor.css('display') != 'none'){
-        selectedColor.x = e.pageX
-        selectedColor.y = e.pageY
+        selectedColor.x = e.pageX - selectedColor.width()/2
+        selectedColor.y = e.pageY - selectedColor.height()/2
         selectedColor.css("left", selectedColor.x);
         selectedColor.css("top", selectedColor.y);
        }
