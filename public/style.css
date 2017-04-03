@@ -5,6 +5,9 @@ html, body{
     margin: 0px;
     font-family: arial;
 }
+canvas{
+    border: 1px solid black;
+}
 .palettes{
     background: #111111;
     box-sizing: border-box;

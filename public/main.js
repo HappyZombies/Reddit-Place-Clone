@@ -20,9 +20,27 @@ function drawCanvas(){
     context.webkitImageSmoothingEnabled = false;
     context.msImageSmoothingEnabled = false;
         
-    context.fillStyle = "#000fa3"; //temp
+    context.fillStyle = "#ffffff"; //temp
     context.fillRect(0, 0, canvas.width, canvas.height);
 
+    //get the canvas and save the image.
+    
+
+}
+
+function convertImageToCanvas(img) {
+	var tempCanvas = document.createElement("canvas");
+	tempCanvas.width = img.width;
+	tempCanvas.height = img.height;
+	tempCanvas.getContext("2d").drawImage(img, 0, 0);
+
+	return canvas;
+}
+
+function convertCanvasToImage(can) {
+	var tempImg = new Image();
+	tempImg.src = can.toDataURL("image/png");
+	return tempImg;
 }
 
 
