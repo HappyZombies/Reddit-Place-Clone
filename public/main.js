@@ -9,17 +9,18 @@ var canvasImg
 function drawCanvas(){
     
     canvas = $('#board').get(0)
-    context = canvas.getContext("2d")
+    canvas.height = 750
+    canvas.width = 750
 
-	context.width = 1000
-	context.height = 400
+    context = canvas.getContext("2d")
+    
 
 	context.imageSmoothingEnabled = false;
     context.mozImageSmoothingEnabled = false;
     context.webkitImageSmoothingEnabled = false;
     context.msImageSmoothingEnabled = false;
         
-    context.fillStyle = "#000fa3";
+    context.fillStyle = "#000fa3"; //temp
     context.fillRect(0, 0, canvas.width, canvas.height);
 
 }
@@ -60,8 +61,8 @@ $(function(){
     //But we only want to follow/write to the variable if we are display: block for the selected color.
    $(document).mousemove(function(e){
        if(selectedColor.css('display') != 'none'){
-        selectedColor.x = e.clientX - selectedColor.width()/2
-        selectedColor.y = e.clientY - selectedColor.height()/2
+        selectedColor.x = e.pageX
+        selectedColor.y = e.pageY
         selectedColor.css("left", selectedColor.x);
         selectedColor.css("top", selectedColor.y);
        }
