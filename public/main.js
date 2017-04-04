@@ -12,7 +12,7 @@ var startCoords = []
 var last = [0, 0]
 var windowWidth = 500;
 var windowHeight = 500
-var socket = io()
+var socket
 //^this is the actual size of the image. We want to zoom in on this and base it off that.
 //however when we save we need to assure that it's 500
 
@@ -70,7 +70,7 @@ $(function(){
     //Declare our variables.
     selectedColor = $("#selection")
     initializeCanvas()
-    
+    socket = io()
     //draw the image.bmp to the canvas.
     imgContent = new Image()
     imgContent.src = "./img/image.bmp" //must be 500x500!
@@ -81,7 +81,14 @@ $(function(){
     // windowWidth,windowHeight);
         context.drawImage(imgContent, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height)
     }
-
+     socket.on('load image', function(bin){
+        imgContent.onload = function(){
+            canvas.width = imgContent.width
+            canvas.height = imgContent.height
+            context.drawImage(imgContent, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height)
+        }
+        imgContent.src = bin;
+    })
 
     canvas.onmousedown = function(e){
         if(selectedColor.css('display') != 'none'){
@@ -93,16 +100,7 @@ $(function(){
             context.fillRect(x, y, zoom, zoom)
             selectedColor.hide()
             //user put in a block, run socket
-            socket.emit('block', convertCanvasToImage(canvas).src)
-            socket.on('load image', function(bin){
-                imgContent.onload = function(){
-                    canvas.width = imgContent.width
-                    canvas.height = imgContent.height
-                    context.drawImage(imgContent, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height)
-                }
-                imgContent.src = bin;
-                console.log("image received")
-            })
+            socket.emit('load image', convertCanvasToImage(canvas).src)
         }
     }
 
