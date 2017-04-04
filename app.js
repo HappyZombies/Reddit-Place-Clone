@@ -20,7 +20,7 @@ io.on('connection', (socket) => {
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
-  socket.on('block', (binary) => {
+  socket.on('load image', (binary) => {
     const imgBin = binary.replace(/^data:image\/png;base64,|^data:image\/jpeg;base64,|^data:image\/jpg;base64,|^data:image\/bmp;base64,/, '')
     const bitmap = new Buffer(imgBin, 'base64')
     fs.writeFileSync("./public/img/image.bmp", bitmap)
