@@ -10,13 +10,19 @@ var screenY = $(window).height()
 var isDown = false
 var startCoords = []
 var last = [0, 0]
+var windowWidth = 500;
+var windowHeight = 500
+//^this is the actual size of the image. We want to zoom in on this and base it off that.
+//however when we save we need to assure that it's 500
 
+var windowX = 0;
+var windowY = 0;
 
 function initializeCanvas(){
     canvas = $('#board').get(0) //get that canvas...
-    canvas.height = 1000//$(window).height()
-    canvas.width = 1000//$(window).width()
     context = canvas.getContext("2d")
+    canvas.width = 0
+    canvas.height = 0
 	context.imageSmoothingEnabled = false;
     context.mozImageSmoothingEnabled = false;
     context.webkitImageSmoothingEnabled = false;
@@ -37,27 +43,43 @@ function convertCanvasToImage(can) {
 	return tempImg;
 }
 
-function draw(){
-
+function zoomIn(){
+    console.log("I was clicked")
+    imgContent.src = "./img/image.bmp"
+    imgContent.onload = function(){
+        canvas.width = imgContent.width
+        canvas.height = imgContent.height
+        context.drawImage(imgContent, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width*1.5, canvas.height*1.5)
+    }
 }
+
+function zoomOut(){
+    console.log("I was clicked")
+    imgContent.src = "./img/image.bmp"
+    imgContent.onload = function(){
+        canvas.width = imgContent.width
+        canvas.height = imgContent.height
+        context.drawImage(imgContent, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width*1, canvas.height*1)
+    }
+}
+
 //Start jQuery
 $(function(){
     
     //Declare our variables.
     selectedColor = $("#selection")
     initializeCanvas()
-        
+    
+    //draw the image.bmp to the canvas.
     imgContent = new Image()
-    //imgContent.src = "http://static1.squarespace.com/static/508adb26e4b06993f6ab5cfb/t/529cb89ae4b0003dbaa4e218/1386002587006/Blank+White+Square-Formatted.jpg"
-    //^^temporary white image. The idea would be that the canvas would be saved to an image everytime someone puts down a pixel, then it would load again with websocket.
-    // imgContent.onload = function(){
-    //     canvas.width = imgContent.width
-    //     canvas.height = imgContent.height
-    //     context.fillStyle = "#ffffff" //temp
-    // }
-    context.fillStyle = "#ffffff"
-    context.fillRect(0, 0, canvas.width, canvas.height)
-    context.drawImage(imgContent, 0, 0)
+    imgContent.src = "./img/image.bmp" //must be 500x500!
+    imgContent.onload = function(){
+        canvas.width = imgContent.width
+        canvas.height = imgContent.height
+    //     context.drawImage(photo, windowX, windowY, windowWidth, windowHeight, 0, 0,
+    // windowWidth,windowHeight);
+        context.drawImage(imgContent, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height)
+    }
 
 
     canvas.onmousedown = function(e){
