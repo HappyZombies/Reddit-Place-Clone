@@ -13,6 +13,10 @@ app.use(bodyParser.urlencoded({
 }))
 
 
+// var img = "image.src".replace(/^data:image\/png;base64,|^data:image\/jpeg;base64,|^data:image\/jpg;base64,|^data:image\/bmp;base64,/, '')
+
+// var bitmap = new Buffer(img, 'base64');
+// fs.writeFileSync("example.bmp", bitmap);
 http.listen(3000, function(){
   console.log('listening on localhost:3000');
 });
