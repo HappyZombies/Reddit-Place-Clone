@@ -2,31 +2,8 @@
 var selectedColor //store the selected color globally.
 var canvas //the <canvas>
 var context //the context of the canvas, aka what's inside it.
-var canvasImg
+var zoom = 40 //how big our pixel block is.
 
-
-// function that will draw the canvas.
-function drawCanvas(){
-    
-    canvas = $('#board').get(0)
-    canvas.height = 750
-    canvas.width = 750
-
-    context = canvas.getContext("2d")
-    
-
-	context.imageSmoothingEnabled = false;
-    context.mozImageSmoothingEnabled = false;
-    context.webkitImageSmoothingEnabled = false;
-    context.msImageSmoothingEnabled = false;
-        
-    context.fillStyle = "#ffffff"; //temp
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    //get the canvas and save the image.
-    
-
-}
 
 function convertImageToCanvas(img) {
 	var tempCanvas = document.createElement("canvas");
@@ -49,14 +26,32 @@ $(function(){
     
     //Declare our variables.
     selectedColor = $("#selection")
-    //canvasImg = new Image()
-    canvasImg = new Image()
+
+    
+    canvas = $('#board').get(0) //the main canvas...
+    canvas.height = $(window).width()
+    canvas.width = $(window).width()
+
+    context = canvas.getContext("2d")
+    
+
+	context.imageSmoothingEnabled = false;
+    context.mozImageSmoothingEnabled = false;
+    context.webkitImageSmoothingEnabled = false;
+    context.msImageSmoothingEnabled = false;
+        
+    imgContent = new Image()
     contentPosition = Array()
-
-    var zoom = 40 //how big our pixel block is.
-
-    drawCanvas()
-
+    //imgContent.src = "http://static1.squarespace.com/static/508adb26e4b06993f6ab5cfb/t/529cb89ae4b0003dbaa4e218/1386002587006/Blank+White+Square-Formatted.jpg"
+    //^^temporary white image. The idea would be that the canvas would be saved to an image everytime someone puts down a pixel, then it would load again with websocket.
+    // imgContent.onload = function(){
+    //     canvas.width = imgContent.width
+    //     canvas.height = imgContent.height
+    //     context.fillStyle = "#ffffff" //temp
+    // }
+    context.fillStyle = "#ffffff"
+    context.fillRect(0, 0, canvas.width, canvas.height)
+    context.drawImage(imgContent, 0, 0)
     canvas.addEventListener('mousedown',function(e){
         var x = Math.floor(selectedColor.x);
         var y = Math.floor(selectedColor.y);
@@ -64,6 +59,9 @@ $(function(){
         context.fillRect(x, y, 40, 40)
         selectedColor.hide()
     }, true)
+
+    //dragging 
+    
 
 
     //Call our functions that start the canvas
