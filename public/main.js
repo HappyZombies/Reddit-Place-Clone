@@ -2,7 +2,7 @@
 var selectedColor //store the selected color globally.
 var canvas //the <canvas>
 var context //the context of the canvas, aka what's inside it.
-var zoom = 40 //how big our pixel block is.
+var zoom = 20 //how big our pixel block is.
 
 
 function convertImageToCanvas(img) {
@@ -79,8 +79,10 @@ $(function(){
        if(selectedColor.css('display') != 'none'){
 	       selectedColor.x = (Math.floor(e.pageX / zoom) * zoom)
 	       selectedColor.y = (Math.floor(e.pageY / zoom) * zoom)
-	       selectedColor.css("left", selectedColor.x+1);
-	       selectedColor.css("top", selectedColor.y+1);
+	       selectedColor.css("left", selectedColor.x+1)
+	       selectedColor.css("top", selectedColor.y+1)
+	       selectedColor.css("width", zoom)
+	       selectedColor.css("height", zoom)
        }
 	})
 })
