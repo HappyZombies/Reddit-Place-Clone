@@ -47,7 +47,7 @@ $(function(){
     selectedColor = $("#selection")
     initializeCanvas()
         
-    //imgContent = new Image()
+    imgContent = new Image()
     //imgContent.src = "http://static1.squarespace.com/static/508adb26e4b06993f6ab5cfb/t/529cb89ae4b0003dbaa4e218/1386002587006/Blank+White+Square-Formatted.jpg"
     //^^temporary white image. The idea would be that the canvas would be saved to an image everytime someone puts down a pixel, then it would load again with websocket.
     // imgContent.onload = function(){
@@ -59,7 +59,7 @@ $(function(){
     context.fillRect(0, 0, canvas.width, canvas.height)
     context.drawImage(imgContent, 0, 0)
 
-    
+
     canvas.onmousedown = function(e){
         var x = Math.floor(selectedColor.x)
         var y = Math.floor(selectedColor.y)
