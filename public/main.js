@@ -56,7 +56,7 @@ $(function(){
         var x = Math.floor(selectedColor.x);
         var y = Math.floor(selectedColor.y);
         context.fillStyle = selectedColor.css('background-color')
-        context.fillRect(x, y, 40, 40)
+        context.fillRect(x, y, zoom, zoom)
         selectedColor.hide()
     }, true)
 
@@ -77,10 +77,10 @@ $(function(){
     //But we only want to follow/write to the variable if we are display: block for the selected color.
    $(document).mousemove(function(e){
        if(selectedColor.css('display') != 'none'){
-        selectedColor.x = e.pageX - selectedColor.width()/2
-        selectedColor.y = e.pageY - selectedColor.height()/2
-        selectedColor.css("left", selectedColor.x);
-        selectedColor.css("top", selectedColor.y);
+	       selectedColor.x = (Math.floor(e.pageX / zoom) * zoom)
+	       selectedColor.y = (Math.floor(e.pageY / zoom) * zoom)
+	       selectedColor.css("left", selectedColor.x+1);
+	       selectedColor.css("top", selectedColor.y+1);
        }
 	})
 })
