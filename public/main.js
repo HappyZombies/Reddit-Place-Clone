@@ -12,6 +12,7 @@ var startCoords = []
 var last = [0, 0]
 var windowWidth = 500;
 var windowHeight = 500
+var socket = io()
 //^this is the actual size of the image. We want to zoom in on this and base it off that.
 //however when we save we need to assure that it's 500
 
@@ -83,13 +84,26 @@ $(function(){
 
 
     canvas.onmousedown = function(e){
-        var x = Math.floor(selectedColor.x)
-        var y = Math.floor(selectedColor.y)
-        isDown = true
-        startCoords = [x - last[0], y - last[0]]
-        context.fillStyle = selectedColor.css('background-color')
-        context.fillRect(x, y, zoom, zoom)
-        selectedColor.hide()
+        if(selectedColor.css('display') != 'none'){
+            var x = Math.floor(selectedColor.x)
+            var y = Math.floor(selectedColor.y)
+            isDown = true
+            startCoords = [x - last[0], y - last[0]]
+            context.fillStyle = selectedColor.css('background-color')
+            context.fillRect(x, y, zoom, zoom)
+            selectedColor.hide()
+            //user put in a block, run socket
+            socket.emit('block', convertCanvasToImage(canvas).src)
+            socket.on('load image', function(bin){
+                imgContent.onload = function(){
+                    canvas.width = imgContent.width
+                    canvas.height = imgContent.height
+                    context.drawImage(imgContent, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height)
+                }
+                imgContent.src = bin;
+                console.log("image received")
+            })
+        }
     }
 
     canvas.onmouseup = function(e){
