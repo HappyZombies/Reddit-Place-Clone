@@ -31,3 +31,7 @@ canvas{
     z-index: 1000;
     pointer-events: none;
 }
+
+#time{
+    font-size: 26px;
+}
