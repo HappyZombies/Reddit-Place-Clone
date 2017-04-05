@@ -24,6 +24,14 @@ function initializeCanvas () {
   context.msImageSmoothingEnabled = false
 }
 
+function setSmoothing(){
+  // For some reason smoothing is set to true making the image blurry sometimes.
+  context.imageSmoothingEnabled = false
+  context.mozImageSmoothingEnabled = false
+  context.webkitImageSmoothingEnabled = false
+  context.msImageSmoothingEnabled = false
+}
+
 // Not used
 function convertImageToCanvas (img) {
   var tempCanvas = document.createElement('canvas')
@@ -57,7 +65,7 @@ function zoomOut () {
   imgContent.onload = function () {
     canvas.width = imgContent.width
     canvas.height = imgContent.height
-    context.drawImage(imgContent, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width * 1, canvas.height * 1)
+    context.drawImage(imgContent, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width * 2, canvas.height * 2)
   }
 }
 
@@ -73,13 +81,15 @@ $(function () {
   imgContent.onload = function () {
     canvas.width = imgContent.width
     canvas.height = imgContent.height
+    setSmoothing()
     // By doing this, our  canvas will be whatever size is our image.bmp, right now it's 500x500
-    context.drawImage(imgContent, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height)
+    context.drawImage(imgContent, 0, 0, canvas.width, canvas.height)
   }
   socket.on('load image', function (bin) {
     imgContent.onload = function () {
       canvas.width = imgContent.width
       canvas.height = imgContent.height
+      setSmoothing()
       context.drawImage(imgContent, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height)
     }
     imgContent.src = bin
@@ -91,6 +101,7 @@ $(function () {
       var y = Math.floor(selectedColor.y)
       isDown = true
       startCoords = [x - last[0], y - last[0]]
+      setSmoothing()
       context.fillStyle = selectedColor.css('background-color')
       context.fillRect(x, y, pixelSize, pixelSize)
       selectedColor.hide()
