@@ -72,6 +72,7 @@ function zoomOut () {
 // Start jQuery
 $(function () {
     // Declare our variables.
+  console.dir(userData)
   selectedColor = $('#selection')
   initializeCanvas()
   socket = io()
@@ -85,14 +86,15 @@ $(function () {
     // By doing this, our  canvas will be whatever size is our image.bmp, right now it's 500x500
     context.drawImage(imgContent, 0, 0, canvas.width, canvas.height)
   }
-  socket.on('load image', function (bin) {
+  socket.on('load image', function (data) {
+    userData.timeout = data.timeout;
     imgContent.onload = function () {
       canvas.width = imgContent.width
       canvas.height = imgContent.height
       setSmoothing()
       context.drawImage(imgContent, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height)
     }
-    imgContent.src = bin
+    imgContent.src = data.binary
   })
 
   canvas.onmousedown = function (e) {
@@ -105,7 +107,7 @@ $(function () {
       context.fillStyle = selectedColor.css('background-color')
       context.fillRect(x, y, pixelSize, pixelSize)
       selectedColor.hide()
-            // user put in a block, run socket
+      // user put in a block, run socket
       socket.emit('load image', convertCanvasToImage(canvas).src)
     }
   }
