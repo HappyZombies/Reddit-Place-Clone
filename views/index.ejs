@@ -31,6 +31,9 @@
             <div class="color-block" style="background-color: rgb(130, 0, 128);"></div>
         </div>
     </body>
+    <script>
+        var userData = <%- JSON.stringify(loggedInUser) %>
+    </script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="/socket.io/socket.io.js"></script> 
     <script type="text/javascript" src="./main.js"></script>
