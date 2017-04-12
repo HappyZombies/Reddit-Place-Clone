@@ -12,9 +12,12 @@ const session = require('express-session')
 const routes = require('./src/routes')
 const sessionstore = require('sessionstore')
 const passportSocketIo = require("passport.socketio")
- const socketIoSessions = require("socket-io.sessions");
+const socketIoSessions = require("socket-io.sessions")
+
 //our modules.
 require('./src/auth')(passport)
+const config = require('./config')
+
 
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, './public')))
@@ -42,10 +45,14 @@ io.use((socket, next)=>{
 io.on('connection', (socket) => {
   console.log('a user connected')
   //console.dir(socket.request.session)
-  if(!socket.request.session.passport){
-    console.log("you arent logged in/no session yet, kicking you out")
-    io.sockets.connected[socket.id].disconnect()
-  }
+   if(config.googleAuth.clientSecret !== '' || config.googleAuth.clientID !== ''){
+        if(!socket.request.session.passport){
+          console.log("you arent logged in/no session yet, kicking you out")
+          io.sockets.connected[socket.id].disconnect()
+        }
+        // google login is optional
+    }
+
   socket.on('disconnect', function(){
     console.log('a user disconnected');
   });
