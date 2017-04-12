@@ -3,8 +3,9 @@ An attempt of a /r/place clone
 
 ![Image](http://i.imgur.com/m2sVym0.png)
 
-Run `npm i`
-Then `node app.js`
+* Rename config-example.js to config.js, you can leave the values as default if you do not want to have google authentication.
+* Run `npm i`
+* Then `node app.js`
 
 And you are off. 
 
